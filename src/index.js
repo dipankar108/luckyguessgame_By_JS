@@ -1,52 +1,63 @@
-//card options
 document.addEventListener('DOMContentLoaded', () => {
 
   const cardArray = [
     {
+      id: 1,
       name: 'css',
       img: 'src/img/css.png'
     },
     {
+      id: 2,
       name: 'graphql',
       img: 'src/img/graphql.png'
     },
     {
+      id: 3,
       name: 'html',
       img: 'src/img/html.png'
     },
     {
+      id: 4,
       name: 'java',
       img: 'src/img/java.png'
     },
     {
+      id: 5,
       name: 'reactjs',
       img: 'src/img/reactjs.png'
     },
     {
+      id: 6,
       name: 'sql',
       img: 'src/img/sql.png'
     },
     {
+      id: 7,
       name: 'css',
       img: 'src/img/css.png'
     },
     {
+      id: 8,
       name: 'graphql',
       img: 'src/img/graphql.png'
     },
     {
+      id: 9,
       name: 'html',
       img: 'src/img/html.png'
     },
     {
+      id: 10,
       name: 'java',
       img: 'src/img/java.png'
     },
     {
+      id: 11,
       name: 'reactjs',
       img: 'src/img/reactjs.png'
     },
     {
+      id: 12,
       name: 'sql',
       img: 'src/img/sql.png'
     },
@@ -56,9 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let checkwin = [];
   let wintime = [];
   let losstime = [];
+
+  const checkEvent = (i, imgContainer, randomCard) => {
+    checkwin.includes(randomCard[i].id) ? alert('already used') : flipcard(i, imgContainer, randomCard);
+  }
   const flipcard = (i, imgContainer, randomCard) => {
-    console.log(randomCard);
-    checkwin.push(i);
+    console.log(i);
+    checkwin.push(randomCard[i].id);
     imgContainer.setAttribute('src', `${randomCard[i].img}`);
     const card = document.querySelectorAll('img');
     mycohoice.push(randomCard[i].name);
@@ -67,23 +82,15 @@ document.addEventListener('DOMContentLoaded', () => {
       mycohoice.length
     )
     if (mycohoice.length > 1) {
-
-      if (myId[0] == myId[1]) {
-        alert('same id')
-        document.getElementById('cardContainerId').innerHTML = '';
-        myId = [];
-        mycohoice = [];
-        //gamereload();
-      } else if (mycohoice[0] == mycohoice[1]) {
+      if (mycohoice[0] == mycohoice[1]) {
         setTimeout(() => {
           wintime.push(i);
-          card[myId[0]].style.transition = 'all 2s linear;'
           document.getElementById('win').innerHTML = wintime.length;
           card[myId[0]].setAttribute('src', 'src/img/right.png');
           card[myId[1]].setAttribute('src', 'src/img/right.png');
           mycohoice = [];
           myId = [];
-        }, 10);
+        }, 100);
       }
       else if (mycohoice.length > 0 && mycohoice[0] != mycohoice[1]) {
         losstime.push(i);
@@ -97,15 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (checkwin.length == 12) {
       if (wintime.length / losstime.length > 1) {
         setTimeout(() => {
-
+          document.getElementById('cardContainerId').innerHTML = '';
+          document.getElementById('win').innerHTML = '0';
+          document.getElementById('loss').innerHTML = '0';
           myId = [];
           mycohoice = [];
           checkwin = [];
           wintime = [];
           losstime = [];
-          document.getElementById('cardContainerId').innerHTML = '';
-          document.getElementById('win').innerHTML = '0';
-          document.getElementById('loss').innerHTML = '0';
           alert('You Win');
           gamereload();
         }, 200)
@@ -129,14 +135,15 @@ document.addEventListener('DOMContentLoaded', () => {
       else if (wintime.length / losstime.length == 1) {
         setTimeout(() => {
 
+
+          document.getElementById('win').innerHTML = '0';
+          document.getElementById('loss').innerHTML = '0';
+          document.getElementById('cardContainerId').innerHTML = '';
           myId = [];
           mycohoice = [];
           checkwin = [];
           wintime = [];
           losstime = [];
-          document.getElementById('win').innerHTML = '0';
-          document.getElementById('loss').innerHTML = '0';
-          document.getElementById('cardContainerId').innerHTML = '';
           alert('Drawn');
           gamereload();
 
@@ -166,8 +173,8 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         imgContainer.setAttribute('src', 'src/img/eye.png');
         imgContainer.setAttribute('data-id', i);
-        imgContainer.classList.remove('disabled')
-        imgContainer.addEventListener('click', () => flipcard(i, imgContainer, randomCard))
+        imgContainer.classList.remove('disabled');
+        imgContainer.addEventListener('click', () => checkEvent(i, imgContainer, randomCard))
 
       }
 
