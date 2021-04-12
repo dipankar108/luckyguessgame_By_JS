@@ -1,3 +1,4 @@
+//check if the dom content already loaded or not
 document.addEventListener('DOMContentLoaded', () => {
 
   const cardArray = [
@@ -62,88 +63,94 @@ document.addEventListener('DOMContentLoaded', () => {
       img: 'src/img/sql.png'
     },
   ];
-  let mycohoice = [];
-  let myId = [];
-  let checkwin = [];
-  let wintime = [];
-  let losstime = [];
 
-  const checkEvent = (i, imgContainer, randomCard) => {
-    checkwin.includes(randomCard[i].id) ? alert('already used') : flipcard(i, imgContainer, randomCard);
+  //declare some array for control dataflow
+  //mychoice is going to store name of each card
+  let myChoice = [];
+  //tempid is going store temp id for change attribute after click a card
+  let tempId = [];
+  //total flip get count of our all flip card sothat we can know when I flip the card
+  let totalFlip = [];
+  //winScore store winscore
+  let winScore = [];
+  //lostScore store winscore
+  let lostScore = [];
+
+  //Check if I already clicked or not so We can remove the duplicate click
+
+  const checkEvent = (i, imdCard, randomCard) => {
+    totalFlip.includes(randomCard[i].id) ? alert('already used') : flipcard(i, imdCard, randomCard);
   }
-  const flipcard = (i, imgContainer, randomCard) => {
-    console.log(i);
-    checkwin.push(randomCard[i].id);
-    imgContainer.setAttribute('src', `${randomCard[i].img}`);
+  const flipcard = (i, imdCard, randomCard) => {
+    totalFlip.push(randomCard[i].id);
+    imdCard.setAttribute('src', `${randomCard[i].img}`);
     const card = document.querySelectorAll('img');
-    mycohoice.push(randomCard[i].name);
-    myId.push(`${i}`);
-    console.log(
-      mycohoice.length
-    )
-    if (mycohoice.length > 1) {
-      if (mycohoice[0] == mycohoice[1]) {
+    myChoice.push(randomCard[i].name);
+    tempId.push(`${i}`);
+
+    if (myChoice.length > 1) {
+      if (myChoice[0] == myChoice[1]) {
         setTimeout(() => {
-          wintime.push(i);
-          document.getElementById('win').innerHTML = wintime.length;
-          card[myId[0]].setAttribute('src', 'src/img/right.png');
-          card[myId[1]].setAttribute('src', 'src/img/right.png');
-          mycohoice = [];
-          myId = [];
+          winScore.push(i);
+          document.getElementById('win').innerHTML = winScore.length;
+          card[tempId[0]].setAttribute('src', 'src/img/right.png');
+          card[tempId[1]].setAttribute('src', 'src/img/right.png');
+          myChoice = [];
+          tempId = [];
         }, 100);
       }
-      else if (mycohoice.length > 0 && mycohoice[0] != mycohoice[1]) {
-        losstime.push(i);
-        document.getElementById('loss').innerHTML = losstime.length;
-        card[myId[0]].setAttribute('src', 'src/img/wrong.png');
-        card[myId[1]].setAttribute('src', 'src/img/wrong.png');
-        mycohoice = [];
-        myId = [];
+      else if (myChoice.length > 0 && myChoice[0] != myChoice[1]) {
+        lostScore.push(i);
+        document.getElementById('loss').innerHTML = lostScore.length;
+        card[tempId[0]].setAttribute('src', 'src/img/wrong.png');
+        card[tempId[1]].setAttribute('src', 'src/img/wrong.png');
+        myChoice = [];
+        tempId = [];
       }
     }
-    if (checkwin.length == 12) {
-      if (wintime.length / losstime.length > 1) {
+    if (totalFlip.length == 12) {
+      if (winScore.length / lostScore.length > 1) {
         setTimeout(() => {
           document.getElementById('cardContainerId').innerHTML = '';
           document.getElementById('win').innerHTML = '0';
           document.getElementById('loss').innerHTML = '0';
-          myId = [];
-          mycohoice = [];
-          checkwin = [];
-          wintime = [];
-          losstime = [];
+          tempId = [];
+          myChoice = [];
+          totalFlip = [];
+          winScore = [];
+          lostScore = [];
           alert('You Win');
           gamereload();
         }, 200)
       }
-      else if (wintime.length / losstime.length < 1) {
+      else if (winScore.length / lostScore.length < 1) {
         setTimeout(() => {
 
           document.getElementById('win').innerHTML = '0';
           document.getElementById('loss').innerHTML = '0';
           document.getElementById('cardContainerId').innerHTML = '';
-          myId = [];
-          mycohoice = [];
-          checkwin = [];
-          wintime = [];
-          losstime = [];
+          tempId = [];
+          myChoice = [];
+          totalFlip = [];
+          winScore = [];
+          lostScore = [];
           alert('You Lose');
           gamereload();
         }, 200)
 
       }
-      else if (wintime.length / losstime.length == 1) {
+      else if (winScore.length / lostScore.length == 1) {
         setTimeout(() => {
 
 
           document.getElementById('win').innerHTML = '0';
           document.getElementById('loss').innerHTML = '0';
           document.getElementById('cardContainerId').innerHTML = '';
-          myId = [];
-          mycohoice = [];
-          checkwin = [];
-          wintime = [];
-          losstime = [];
+          tempId = [];
+          myChoice = [];
+          totalFlip = [];
+          winScore = [];
+          lostScore = [];
           alert('Drawn');
           gamereload();
 
@@ -158,10 +165,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardContainer = document.querySelector('.index__cardContainer');
     for (let i = 0; i < randomCard.length; i++) {
 
-      const imgContainer = document.createElement('img');
-      imgContainer.setAttribute('class', 'cardIcon disabled');
-      imgContainer.setAttribute('src', `${randomCard[i].img}`);
-      imgContainer.setAttribute('id', i);
+      const imdCard = document.createElement('img');
+      imdCard.setAttribute('class', 'cardIcon disabled');
+      imdCard.setAttribute('src', `${randomCard[i].img}`);
+      imdCard.setAttribute('id', i);
       let timeleft = 9;
       const closetimeout = setInterval(() => {
         if (timeleft <= 0) {
@@ -171,15 +178,15 @@ document.addEventListener('DOMContentLoaded', () => {
         timeleft -= 1;
       }, 1000);
       setTimeout(() => {
-        imgContainer.setAttribute('src', 'src/img/eye.png');
-        imgContainer.setAttribute('data-id', i);
-        imgContainer.classList.remove('disabled');
-        imgContainer.addEventListener('click', () => checkEvent(i, imgContainer, randomCard))
+        imdCard.setAttribute('src', 'src/img/eye.png');
+        imdCard.setAttribute('data-id', i);
+        imdCard.classList.remove('disabled');
+        imdCard.addEventListener('click', () => checkEvent(i, imdCard, randomCard))
 
       }
 
         , 10000);
-      cardContainer.appendChild(imgContainer);
+      cardContainer.appendChild(imdCard);
 
     };
   }
