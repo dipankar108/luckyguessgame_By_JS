@@ -4,51 +4,51 @@ document.addEventListener('DOMContentLoaded', () => {
   const cardArray = [
     {
       name: 'css',
-      img: 'img/css.png'
+      img: 'src/img/css.png'
     },
     {
       name: 'graphql',
-      img: 'img/graphql.png'
+      img: 'src/img/graphql.png'
     },
     {
       name: 'html',
-      img: 'img/html.png'
+      img: 'src/img/html.png'
     },
     {
       name: 'java',
-      img: 'img/java.png'
+      img: 'src/img/java.png'
     },
     {
       name: 'reactjs',
-      img: 'img/reactjs.png'
+      img: 'src/img/reactjs.png'
     },
     {
       name: 'sql',
-      img: 'img/sql.png'
+      img: 'src/img/sql.png'
     },
     {
       name: 'css',
-      img: 'img/css.png'
+      img: 'src/img/css.png'
     },
     {
       name: 'graphql',
-      img: 'img/graphql.png'
+      img: 'src/img/graphql.png'
     },
     {
       name: 'html',
-      img: 'img/html.png'
+      img: 'src/img/html.png'
     },
     {
       name: 'java',
-      img: 'img/java.png'
+      img: 'src/img/java.png'
     },
     {
       name: 'reactjs',
-      img: 'img/reactjs.png'
+      img: 'src/img/reactjs.png'
     },
     {
       name: 'sql',
-      img: 'img/sql.png'
+      img: 'src/img/sql.png'
     },
   ];
   let mycohoice = [];
@@ -79,8 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
           wintime.push(i);
           card[myId[0]].style.transition = 'all 2s linear;'
           document.getElementById('win').innerHTML = wintime.length;
-          card[myId[0]].setAttribute('src', 'img/right.png');
-          card[myId[1]].setAttribute('src', 'img/right.png');
+          card[myId[0]].setAttribute('src', 'src/img/right.png');
+          card[myId[1]].setAttribute('src', 'src/img/right.png');
           mycohoice = [];
           myId = [];
         }, 10);
@@ -88,8 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
       else if (mycohoice.length > 0 && mycohoice[0] != mycohoice[1]) {
         losstime.push(i);
         document.getElementById('loss').innerHTML = losstime.length;
-        card[myId[0]].setAttribute('src', 'img/wrong.png');
-        card[myId[1]].setAttribute('src', 'img/wrong.png');
+        card[myId[0]].setAttribute('src', 'src/img/wrong.png');
+        card[myId[1]].setAttribute('src', 'src/img/wrong.png');
         mycohoice = [];
         myId = [];
       }
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
         timeleft -= 1;
       }, 1000);
       setTimeout(() => {
-        imgContainer.setAttribute('src', 'img/eye.png');
+        imgContainer.setAttribute('src', 'src/img/eye.png');
         imgContainer.setAttribute('data-id', i);
         imgContainer.classList.remove('disabled')
         imgContainer.addEventListener('click', () => flipcard(i, imgContainer, randomCard))
